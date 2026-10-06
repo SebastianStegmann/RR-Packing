@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salla Labels (v2.2)</title>
+    <title>Salla Labels (v2.3)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- SheetJS for XLSX parsing -->
@@ -96,7 +96,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold">Salla Labels (Phomemo PM-241BT)</h1>
-                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v2.2</span>
+                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v2.3</span>
                     </div>
                     <p class="text-xs text-indigo-200">Convert Salla Excel orders to 4×6 thermal labels for Labelife</p>
                 </div>
@@ -138,7 +138,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 no-print">
-        Salla Labels App <span class="font-mono font-bold text-indigo-600">v2.2</span> • Optimized for iPad Safari & 4×6 Thermal Printers
+        Salla Labels App <span class="font-mono font-bold text-indigo-600">v2.3</span> • Optimized for iPad Safari & 4×6 Thermal Printers
     </footer>
 
     <!-- JavaScript Logic -->
@@ -157,6 +157,7 @@
                     const firstSheetName = workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[firstSheetName];
                     
+                    // Parse rows in exact file order
                     parsedOrders = XLSX.utils.sheet_to_json(worksheet);
                     
                     if (parsedOrders.length === 0) {
