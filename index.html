@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salla Labels (v2.4)</title>
+    <title>Salla Labels (v2.5)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- SheetJS for XLSX parsing -->
@@ -74,7 +74,7 @@
                 break-after: page !important;
                 break-inside: avoid !important;
                 margin: 0 !important;
-                padding: 0.25in !important;
+                padding: 0.2in !important;
                 box-shadow: none !important;
                 border: none !important;
                 display: flex !important;
@@ -96,7 +96,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold">Salla Labels (Phomemo PM-241BT)</h1>
-                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v2.4</span>
+                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v2.5</span>
                     </div>
                     <p class="text-xs text-indigo-200">Convert Salla Excel orders to 4×6 thermal labels for Labelife</p>
                 </div>
@@ -138,7 +138,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 no-print">
-        Salla Labels App <span class="font-mono font-bold text-indigo-600">v2.4</span> • Optimized for iPad Safari & 4×6 Thermal Printers
+        Salla Labels App <span class="font-mono font-bold text-indigo-600">v2.5</span> • Optimized for iPad Safari & 4×6 Thermal Printers
     </footer>
 
     <!-- JavaScript Logic -->
@@ -220,7 +220,7 @@
                 let productsHtml = products.map(p => `
                     <div class="flex justify-between items-start border-b border-dashed border-slate-200 py-1 text-xs">
                         <div class="flex-grow pr-2">
-                            <span class="font-bold text-slate-800" dir="auto">${p.name}</span>
+                            <span class="font-bold text-slate-800 leading-tight" dir="auto">${p.name}</span>
                             <span class="text-slate-500 block text-[10px] font-mono">SKU: ${p.sku}</span>
                         </div>
                         <div class="bg-slate-100 px-2 py-0.5 rounded font-bold text-slate-700 text-xs whitespace-nowrap">
@@ -230,18 +230,18 @@
                 `).join('');
 
                 labelCard.innerHTML = `
-                    <div>
+                    <div class="flex flex-col flex-grow">
                         <!-- Top Header: Order ID & Royal Rabbit text -->
-                        <div class="flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-3">
+                        <div class="flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-2">
                             <div class="font-black text-sm text-slate-900">📦 Order: #${orderId}</div>
                             <div class="font-extrabold text-sm text-slate-900 tracking-wide">ROYAL RABBIT</div>
                         </div>
 
                         <!-- Customer Info Box -->
-                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 mb-3 text-xs space-y-1">
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 mb-2 text-xs space-y-0.5">
                             <div class="flex justify-between items-center">
-                                <span class="font-bold text-slate-900 text-sm" dir="auto">${customerName}</span>
-                                <span class="font-mono bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold" dir="ltr">${customerMobile}</span>
+                                <span class="font-bold text-slate-900 text-xs" dir="auto">${customerName}</span>
+                                <span class="font-mono bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold text-[11px]" dir="ltr">${customerMobile}</span>
                             </div>
                             <div class="text-slate-600 font-semibold" dir="auto">📍 City: ${city}</div>
                             <div class="text-slate-500 text-[11px] leading-tight truncate" dir="auto">Address: ${address}</div>
@@ -249,13 +249,13 @@
 
                         <!-- Products Header -->
                         <div class="text-xs font-bold text-slate-700 mb-1">Ordered Items:</div>
-                        <div class="max-h-36 overflow-y-auto pl-1 space-y-1">
+                        <div class="flex-grow space-y-1 overflow-hidden">
                             ${productsHtml}
                         </div>
                     </div>
 
                     <!-- Bottom Bar (Hidden when printing) -->
-                    <div class="print-hidden pt-2 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
+                    <div class="print-hidden pt-2 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400 mt-2">
                         <span>Label (${index + 1} of ${parsedOrders.length})</span>
                         <button onclick="printSingleLabel(${index})" class="no-print bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded font-bold text-xs transition">
                             🖨️ Print Label
