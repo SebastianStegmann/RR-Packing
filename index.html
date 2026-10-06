@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salla Labels (v1.9.2) - Thermal Printer Manager</title>
+    <title>Salla Labels (v1.9.3) - Thermal Printer Manager</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- SheetJS for XLSX parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Google Fonts Cairo for Arabic typography compatibility -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', 'Cairo', sans-serif;
         }
         
-        /* 4x6 Label Card Preview Style on screen */
+        /* 4x6 Label Card Preview Style */
         .label-card {
             width: 100%;
             max-width: 420px;
@@ -22,7 +25,7 @@
             box-sizing: border-box;
         }
 
-        /* Strict Thermal Print Page Rules for 4x6 Printers / Labelife PDF export */
+        /* Strict Thermal Print Page Rules for Safari / iPad & PDF Export */
         @media print {
             @page {
                 size: 4in 6in;
@@ -35,7 +38,7 @@
                 padding: 0 !important;
                 width: 4in !important;
                 height: 6in !important;
-                overflow: visible !important;
+                overflow: hidden !important;
             }
 
             body * {
@@ -49,15 +52,15 @@
             #labels-container {
                 display: block !important;
                 position: static !important;
+                width: 4in !important;
+                height: auto !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                width: 4in !important;
             }
 
             .printable-label {
                 visibility: visible !important;
-                display: block !important;
-                position: relative !important;
+                position: static !important;
                 width: 4in !important;
                 height: 6in !important;
                 max-width: 4in !important;
@@ -70,6 +73,9 @@
                 padding: 0.25in !important;
                 box-shadow: none !important;
                 border: none !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
                 box-sizing: border-box !important;
                 overflow: hidden !important;
             }
@@ -87,6 +93,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
+    <!-- Header / Navbar -->
     <header class="bg-indigo-700 text-white shadow-md p-4 no-print">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -94,7 +101,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold">Salla Labels (Phomemo PM-241BT)</h1>
-                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v1.9.2</span>
+                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v1.9.3</span>
                     </div>
                     <p class="text-xs text-indigo-200">Convert Salla Excel orders to 4×6 thermal labels for Labelife</p>
                 </div>
@@ -110,6 +117,7 @@
         </div>
     </header>
 
+    <!-- Main Container -->
     <main class="max-w-6xl mx-auto p-4 sm:p-6 flex-grow w-full">
 
         <!-- Upload Box -->
@@ -133,10 +141,12 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 no-print">
-        Salla Labels App <span class="font-mono font-bold text-indigo-600">v1.9.2</span> • Optimized for iPad Safari & 4×6 Thermal Printers
+        Salla Labels App <span class="font-mono font-bold text-indigo-600">v1.9.3</span> • Optimized for iPad Safari & 4×6 Thermal Printers
     </footer>
 
+    <!-- JavaScript Logic -->
     <script>
         let parsedOrders = [];
 
@@ -218,38 +228,36 @@
                 `).join('');
 
                 labelCard.innerHTML = `
-                    <div class="h-full flex flex-col justify-between">
-                        <div>
-                            <!-- Top Header: Order ID & Royal Rabbit text -->
-                            <div class="flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-3">
-                                <div class="font-black text-sm text-slate-900">📦 Order: #${orderId}</div>
-                                <div class="font-extrabold text-sm text-slate-900 tracking-wide">ROYAL RABBIT</div>
-                            </div>
-
-                            <!-- Customer Info Box -->
-                            <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 mb-3 text-xs space-y-1">
-                                <div class="flex justify-between items-center">
-                                    <span class="font-bold text-slate-900 text-sm" dir="auto">${customerName}</span>
-                                    <span class="font-mono bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold" dir="ltr">${customerMobile}</span>
-                                </div>
-                                <div class="text-slate-600 font-semibold" dir="auto">📍 City: ${city}</div>
-                                <div class="text-slate-500 text-[11px] leading-tight truncate" dir="auto">Address: ${address}</div>
-                            </div>
-
-                            <!-- Products Header -->
-                            <div class="text-xs font-bold text-slate-700 mb-1">Ordered Items:</div>
-                            <div class="max-h-36 overflow-y-auto pl-1 space-y-1">
-                                ${productsHtml}
-                            </div>
+                    <div>
+                        <!-- Top Header: Order ID & Royal Rabbit text -->
+                        <div class="flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-3">
+                            <div class="font-black text-sm text-slate-900">📦 Order: #${orderId}</div>
+                            <div class="font-extrabold text-sm text-slate-900 tracking-wide">ROYAL RABBIT</div>
                         </div>
 
-                        <!-- Bottom Bar (Hidden when printing) -->
-                        <div class="print-hidden pt-2 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
-                            <span>Label (${index + 1} of ${parsedOrders.length})</span>
-                            <button onclick="printSingleLabel(${index})" class="no-print bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded font-bold text-xs transition">
-                                🖨️ Print Label
-                            </button>
+                        <!-- Customer Info Box -->
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 mb-3 text-xs space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-900 text-sm" dir="auto">${customerName}</span>
+                                <span class="font-mono bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-bold" dir="ltr">${customerMobile}</span>
+                            </div>
+                            <div class="text-slate-600 font-semibold" dir="auto">📍 City: ${city}</div>
+                            <div class="text-slate-500 text-[11px] leading-tight truncate" dir="auto">Address: ${address}</div>
                         </div>
+
+                        <!-- Products Header -->
+                        <div class="text-xs font-bold text-slate-700 mb-1">Ordered Items:</div>
+                        <div class="max-h-36 overflow-y-auto pl-1 space-y-1">
+                            ${productsHtml}
+                        </div>
+                    </div>
+
+                    <!-- Bottom Bar (Hidden when printing) -->
+                    <div class="print-hidden pt-2 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
+                        <span>Label (${index + 1} of ${parsedOrders.length})</span>
+                        <button onclick="printSingleLabel(${index})" class="no-print bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded font-bold text-xs transition">
+                            🖨️ Print Label
+                        </button>
                     </div>
                 `;
 
@@ -261,7 +269,7 @@
             const cards = document.querySelectorAll('.printable-label');
             cards.forEach((card, i) => {
                 if (i === index) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                     card.style.visibility = 'visible';
                 } else {
                     card.style.display = 'none';
@@ -271,7 +279,7 @@
             window.print();
             setTimeout(() => {
                 cards.forEach(card => {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                     card.style.visibility = 'visible';
                 });
             }, 500);
@@ -280,7 +288,7 @@
         function printAllLabels() {
             const cards = document.querySelectorAll('.printable-label');
             cards.forEach(card => {
-                card.style.display = 'block';
+                card.style.display = 'flex';
                 card.style.visibility = 'visible';
             });
             window.print();
