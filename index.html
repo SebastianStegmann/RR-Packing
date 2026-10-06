@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salla Labels (v1.4) - Thermal Printer Manager</title>
+    <title>Salla Labels (v1.5) - Thermal Printer Manager</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- SheetJS for XLSX parsing -->
@@ -24,8 +24,20 @@
             border: 2px dashed #cbd5e1;
         }
 
-        /* Print Styling Fix for Safari / iPad */
+        /* Strict Thermal Print Page Rules for Safari / iPad */
         @media print {
+            @page {
+                size: 4in 6in;
+                margin: 0;
+            }
+
+            body, html {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 4in !important;
+            }
+
             body * {
                 visibility: hidden !important;
             }
@@ -34,17 +46,9 @@
                 visibility: visible !important;
             }
 
-            body {
-                background: white !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
             #labels-container {
                 display: block !important;
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
+                position: static !important;
                 width: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -66,6 +70,7 @@
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: space-between !important;
+                box-sizing: border-box !important;
             }
 
             .no-print {
@@ -84,7 +89,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold">Salla Labels (Phomemo PM-241BT)</h1>
-                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v1.4</span>
+                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v1.5</span>
                     </div>
                     <p class="text-xs text-indigo-200">Convert Salla Excel orders to 4×6 thermal labels for Labelife</p>
                 </div>
@@ -126,7 +131,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 no-print">
-        Salla Labels App <span class="font-mono font-bold text-indigo-600">v1.4</span> • Optimized for iPad Safari & 4×6 Thermal Printers
+        Salla Labels App <span class="font-mono font-bold text-indigo-600">v1.5</span> • Optimized for iPad Safari & 4×6 Thermal Printers
     </footer>
 
     <!-- JavaScript Logic -->
@@ -212,10 +217,10 @@
 
                 labelCard.innerHTML = `
                     <div>
-                        <!-- Top Header: Salla & Order ID -->
+                        <!-- Top Header: Royal Rabbit & Order ID -->
                         <div class="flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-3">
-                            <div class="font-black text-lg text-slate-900">📦 Order: #${orderId}</div>
-                            <div class="text-xs bg-black text-white px-2 py-0.5 rounded font-bold">SALLA</div>
+                            <div class="font-black text-base text-slate-900">📦 Order: #${orderId}</div>
+                            <div class="text-[11px] bg-amber-500 text-white px-2 py-0.5 rounded font-bold tracking-wide">ROYAL RABBIT</div>
                         </div>
 
                         <!-- Customer Info Box -->
