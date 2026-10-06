@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salla Labels (v2.0) - Thermal Printer Manager</title>
+    <title>Salla Labels (v2.1)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- SheetJS for XLSX parsing -->
@@ -38,32 +38,32 @@
                 padding: 0 !important;
                 width: 4in !important;
                 height: 6in !important;
-                overflow: hidden !important;
+                overflow: visible !important;
             }
 
-            /* Hide everything by default */
-            body * {
+            /* Hide app UI elements completely */
+            header, footer, #upload-section, .no-print, .print-hidden {
                 display: none !important;
-                visibility: hidden !important;
             }
-            
-            /* Show only the labels container and its children */
-            #labels-container, #labels-container * {
+
+            /* Reset main container and grid layout for printing */
+            main {
                 display: block !important;
-                visibility: visible !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: none !important;
+                width: 4in !important;
             }
 
             #labels-container {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 4in !important;
+                display: block !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                width: 4in !important;
             }
 
             .printable-label {
-                position: absolute !important;
+                position: relative !important;
                 left: 0 !important;
                 top: 0 !important;
                 width: 4in !important;
@@ -84,15 +84,6 @@
                 box-sizing: border-box !important;
                 overflow: hidden !important;
             }
-
-            /* Hide non-essential print metadata like counter and buttons */
-            .print-hidden {
-                display: none !important;
-            }
-
-            .no-print {
-                display: none !important;
-            }
         }
     </style>
 </head>
@@ -106,7 +97,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold">Salla Labels (Phomemo PM-241BT)</h1>
-                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v2.0</span>
+                        <span class="bg-indigo-900 text-indigo-200 text-xs px-2 py-0.5 rounded-full font-mono font-bold">v2.1</span>
                     </div>
                     <p class="text-xs text-indigo-200">Convert Salla Excel orders to 4×6 thermal labels for Labelife</p>
                 </div>
@@ -148,7 +139,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 no-print">
-        Salla Labels App <span class="font-mono font-bold text-indigo-600">v2.0</span> • Optimized for iPad Safari & 4×6 Thermal Printers
+        Salla Labels App <span class="font-mono font-bold text-indigo-600">v2.1</span> • Optimized for iPad Safari & 4×6 Thermal Printers
     </footer>
 
     <!-- JavaScript Logic -->
@@ -290,7 +281,7 @@
             }, 500);
         }
 
-        function printAllLabels() {
+        fn printAllLabels() {
             const cards = document.querySelectorAll('.printable-label');
             cards.forEach(card => {
                 card.style.display = 'flex';
